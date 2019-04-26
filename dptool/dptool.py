@@ -1,30 +1,39 @@
 import boto3
 import click
 
-aws_region='us-west-2'
-aws_profile='pythonAutomation'
-
-session = boto3.Session(profile_name=aws_profile, region_name=aws_region)
 client = boto3.client('datapipeline')
 
-# for some reason datapipline listings come 25 at a time.
-# We have top make a superset of all of them.
+@click.group()
+def cli():
+    "dptool operates on the datapiplines in AWS"
+    pass
 
-# Assume there are more pipelines in the beginning, the flag to get more.
-has_more_results = True
-super_pipeline_list = []
-m=''
+@cli.command('list-data-pipelines')
+def list_data_pipelines():
+    "Lists all datapipelines in a region"
 
-while has_more_results:
-    pipes = client.list_pipelines(marker=m)
+    # for some reason datapipline listings come 25 at a time.
+    # We have top make a superset of all of them.
+    # Assume there are more than one page of pipelines, set this flag to get more.
+    has_more_results = True
 
-    for p in pipes['pipelineIdList']:
-        super_pipeline_list.append(p)
+    super_pipeline_list = []
+    m=''
 
-    has_more_results = pipes['hasMoreResults']
+    while has_more_results:
+        pipes = client.list_pipelines(marker=m)
 
-    if has_more_results:
-        m = pipes['marker']
+        for p in pipes['pipelineIdList']:
+            super_pipeline_list.append(p)
 
+        has_more_results = pipes['hasMoreResults']
+        if has_more_results:
+            m = pipes['marker']
 
-print(super_pipeline_list[1]['id'])
+    for p in super_pipeline_list:
+        print(p)
+
+    return
+
+if __name__ == '__main__':
+    cli()
