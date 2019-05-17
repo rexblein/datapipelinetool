@@ -14,6 +14,7 @@ Creates and manages data-pipeline assets inside AWS
 
 - list pipelines
 - list pipeline tags
+- list full pipeline descriptions
 - create a pipeline (coming soon)
 - delete a pipeline (coming soon)
 - activate a pipeline (coming soon)

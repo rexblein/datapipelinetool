@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pyflakes = "*"
+pylint = "*"
 
 [packages]
 boto3 = "*"

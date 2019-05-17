@@ -31,15 +31,16 @@ class DataPipelineManager:
 
         return self.super_pipeline_list
 
-    def list_datapipeline_tags(self, id):
-        """Lists tags associated with datapipeline 'id'."""
+    @staticmethod
+    def listify_passed_ids(self, id):
+        """Takes id string and returns a python list."""
 
-        tags = []
         super_id_list = []
         valid_id_list = []
         passed_id_list = []
 
         if id:
+            id = id.replace(',',' ')
             passed_id_list = id.split()
         else:
             passed_id_list = None
@@ -54,6 +55,19 @@ class DataPipelineManager:
                 if i in super_id_list:
                     valid_id_list.append(i)
 
+        return valid_id_list
+
+
+    def list_datapipeline_tags(self, id):
+        """Lists tags associated with datapipeline 'id'."""
+
+        tags = []
+        super_id_list = []
+        valid_id_list = []
+        passed_id_list = []
+
+        valid_id_list = self.listify_passed_ids(self, id)
+
         for i in valid_id_list:
             tag = [i]
             tag.append(self.dp_client.describe_pipelines(pipelineIds=[i])
@@ -61,12 +75,23 @@ class DataPipelineManager:
 
             tags.append(tag)
 
-        #for i in id_list:   #iterate over each id
-        #    for dp in self.super_pipeline_list:
-        #        if dp['id'] == i:
-        #            tags.append(
-        #            self.dp_client.describe_pipelines(pipelineIds=[i])
-        #            ['pipelineDescriptionList'][0]['tags']
-        #            )
-
         return tags
+
+    def describe_datapipeline(self, id):
+        """Gets datapipeline(s) description data."""
+
+        descriptions = []
+        super_id_list = []
+        valid_id_list = []
+        passed_id_list = []
+
+        valid_id_list = self.listify_passed_ids(self, id)
+
+        for i in valid_id_list:
+            desc = [i]
+            desc.append(self.dp_client.describe_pipelines(pipelineIds=[i])
+                ['pipelineDescriptionList'][0])
+
+            descriptions.append(desc)
+
+        return descriptions
