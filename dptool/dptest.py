@@ -16,7 +16,7 @@ dp_manager = None
 @click.option('--profile', default=None,
     help="Use a given AWS profile.")
 def cli(profile):
-    """dptest tests methods in DataPipelineManager class."""
+    """Methods in DataPipelineManager class."""
     global session, dp_manager
 
     session_cfg = {}
@@ -27,18 +27,18 @@ def cli(profile):
     dp_manager = DataPipelineManager(session)
 
 
-@cli.command('list-datapipelines')
+@cli.command('list-all-datapipelines')
 def list_all_datapipelines():
-    """Lists all datapipelines in a region"""
-    #dp_manager.get_all_datapipelines()
+    """Lists all datapipelines in a region."""
     pprint(dp_manager.super_pipeline_list)
 
 
 @cli.command('list-datapipeline-tags')
 @click.option('--id', default=None,
-    help="Use a given datapipeline id.")
+    help="Use a given datapipeline id(s).")
 def list_datapipeline_tags(id):
-    print(id)
+    """Lists datapipeline tags."""
+    #print(id)
     pprint(dp_manager.list_datapipeline_tags(id))
 
 if __name__ == '__main__':

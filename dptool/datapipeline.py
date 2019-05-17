@@ -34,11 +34,39 @@ class DataPipelineManager:
     def list_datapipeline_tags(self, id):
         """Lists tags associated with datapipeline 'id'."""
 
-        tags = None
+        tags = []
+        super_id_list = []
+        valid_id_list = []
+        passed_id_list = []
 
-        for dp in self.super_pipeline_list:
-            if dp['id'] == id:
-                tags = self.dp_client.describe_pipelines(pipelineIds=[id])\
-                ['pipelineDescriptionList'][0]['tags']
+        if id:
+            passed_id_list = id.split()
+        else:
+            passed_id_list = None
+
+        for i in self.super_pipeline_list:  # just want the existing ids
+            super_id_list.append(i['id'])
+
+        if not passed_id_list:   # no ids passed - select all from super_id_list
+            valid_id_list = super_id_list
+        else:
+            for i in passed_id_list:   #iterate over each id
+                if i in super_id_list:
+                    valid_id_list.append(i)
+
+        for i in valid_id_list:
+            tag = [i]
+            tag.append(self.dp_client.describe_pipelines(pipelineIds=[i])
+                ['pipelineDescriptionList'][0]['tags'])
+
+            tags.append(tag)
+
+        #for i in id_list:   #iterate over each id
+        #    for dp in self.super_pipeline_list:
+        #        if dp['id'] == i:
+        #            tags.append(
+        #            self.dp_client.describe_pipelines(pipelineIds=[i])
+        #            ['pipelineDescriptionList'][0]['tags']
+        #            )
 
         return tags
