@@ -34,11 +34,9 @@ def list_all_datapipelines():
 
 
 @cli.command('list-datapipeline-tags')
-@click.option('--id', default=None,
-    help="Use a given datapipeline id(s).")
+@click.option('--id', default=None, help="Use a given datapipeline id(s).")
 def list_datapipeline_tags(id):
     """Lists datapipeline tags."""
-    #print(id)
     pprint(dp_manager.list_datapipeline_tags(id))
 
 if __name__ == '__main__':
