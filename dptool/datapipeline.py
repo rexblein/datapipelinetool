@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Classes for datapipelines."""
 
+import boto3
 from pprint import pprint
 
 class DataPipelineManager:
@@ -50,6 +51,7 @@ class DataPipelineManager:
 
         if not passed_id_list:   # no ids passed - select all from super_id_list
             valid_id_list = super_id_list
+
         else:
             for i in passed_id_list:   #iterate over each id
                 if i in super_id_list:
@@ -77,13 +79,13 @@ class DataPipelineManager:
 
         return tags
 
-    def describe_datapipeline(self, id):
+    def describe_datapipelines(self, id):
         """Gets datapipeline(s) description data."""
 
         descriptions = []
-        super_id_list = []
+        #super_id_list = []
         valid_id_list = []
-        passed_id_list = []
+        #passed_id_list = []
 
         valid_id_list = self.listify_passed_ids(self, id)
 
@@ -95,3 +97,19 @@ class DataPipelineManager:
             descriptions.append(desc)
 
         return descriptions
+
+    def list_datapipeline_definitions(self, id):
+        """Lists datapipeline detail per definition function."""
+
+        definitions = []
+        valid_id_list = []
+
+        valid_id_list = self.listify_passed_ids(self, id)
+
+        for i in valid_id_list:
+            defn = [i]
+            defn.append(self.dp_client.get_pipeline_definition(pipelineId=i))
+
+            definitions.append(defn)
+
+        return definitions

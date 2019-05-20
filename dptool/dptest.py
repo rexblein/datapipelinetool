@@ -32,15 +32,22 @@ def list_all_datapipelines():
     pprint(dp_manager.super_pipeline_list)
 
 
-@cli.command('describe-datapipeline')
-@click.option('--id', default=None, help="Use a given datapipeline id(s).")
-def describe_datapipeline(id):
+@cli.command('describe-datapipelines')
+@click.option('--id', default=None, help="Use given datapipeline id(s).")
+def describe_datapipelines(id):
+    """Lists datapipeline detail per describe function."""
+    pprint(dp_manager.describe_datapipelines(id))
 
-    pprint(dp_manager.describe_datapipeline(id))
+
+@cli.command('list-datapipeline-definitions')
+@click.option('--id', default=None, help="Use given datapipeline id(s).")
+def list_datapipeline_definitions(id):
+    """Lists detail of datapipeline definitions."""
+    pprint(dp_manager.list_datapipeline_definitions(id))
 
 
 @cli.command('list-datapipeline-tags')
-@click.option('--id', default=None, help="Use a given datapipeline id(s).")
+@click.option('--id', default=None, help="Use given datapipeline id(s).")
 def list_datapipeline_tags(id):
     """Lists datapipeline tags."""
     pprint(dp_manager.list_datapipeline_tags(id))
