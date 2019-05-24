@@ -4,26 +4,25 @@
 
 from pprint import pprint
 from datapipeline import DataPipelineManager
-import boto3
 import click
 
-session = None
-client = None
+# client = None
 dp_manager = None
 
 
 @click.group()
-@click.option('--profile', default=None, help="Use a given AWS profile.")
-def cli(profile):
+@click.option('--profile', default=None, help="Use a given named AWS profile.")
+@click.option('--region', default=None, help="Use a given named AWS region.")
+def cli(profile, region):
     """Methods in DataPipelineManager class."""
-    global session, dp_manager
+    global dp_manager
 
-    session_cfg = {}
+    """session_cfg = {}
     if profile:
         session_cfg['profile_name'] = profile
 
-    session = boto3.Session(**session_cfg)
-    dp_manager = DataPipelineManager(session)
+    session = boto3.Session(**session_cfg)"""
+    dp_manager = DataPipelineManager(profile, region)
 
 
 @cli.command('list-all-datapipelines')

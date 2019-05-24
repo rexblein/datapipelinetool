@@ -2,13 +2,25 @@
 """Classes for datapipelines."""
 
 import boto3
-from pprint import pprint
+
 
 class DataPipelineManager:
     """Manage datapipelines."""
 
-    def __init__(self, session):
-        self.session = session
+    def __init__(self, profile, region):
+
+        if not profile:
+            profile = 'default'
+
+        if not region:
+            region = 'us-west-2'
+
+        self.session_cfg = {}
+        self.session_cfg['profile_name'] = profile
+        self.session_cfg['region_name'] = region
+        print(self.session_cfg)
+
+        self.session = boto3.Session(**self.session_cfg)
         self.dp_client = self.session.client('datapipeline')
         self.super_pipeline_list = self.get_all_datapipelines()
 
@@ -64,9 +76,9 @@ class DataPipelineManager:
         """Lists tags associated with datapipeline 'id'."""
 
         tags = []
-        super_id_list = []
+        #super_id_list = []
         valid_id_list = []
-        passed_id_list = []
+        #passed_id_list = []
 
         valid_id_list = self.listify_passed_ids(self, id)
 
