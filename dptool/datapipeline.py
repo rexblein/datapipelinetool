@@ -8,7 +8,8 @@ class DataPipelineManager:
     """Manage datapipelines."""
 
     def __init__(self, profile, region):
-
+        """Initializes class resource object."""
+        
         if not profile:
             profile = 'default'
 
@@ -18,7 +19,6 @@ class DataPipelineManager:
         self.session_cfg = {}
         self.session_cfg['profile_name'] = profile
         self.session_cfg['region_name'] = region
-        print(self.session_cfg)
 
         self.session = boto3.Session(**self.session_cfg)
         self.dp_client = self.session.client('datapipeline')
