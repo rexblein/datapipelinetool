@@ -52,5 +52,13 @@ def list_datapipeline_tags(id):
     pprint(dp_manager.list_datapipeline_tags(id))
 
 
+@cli.command('set-datapipeline-tags')
+@click.option('--id', default=None, help="Use given datapipeline id(s).")
+@click.option('--tagstring', default=None, help="Set given datapipeline tag(s).")
+def set_datapipeline_tags(id, tagstring):
+    """Sets datapipeline tags."""
+    pprint(dp_manager.set_datapipeline_tags(id, tagstring))
+
+
 if __name__ == '__main__':
     cli()

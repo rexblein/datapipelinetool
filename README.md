@@ -26,9 +26,13 @@ Commands:
   list-all-datapipelines         Lists all datapipelines in a region.
   list-datapipeline-definitions  Lists detail of datapipeline definitions.
   list-datapipeline-tags         Lists datapipeline tags.
+  set-datapipeline-tags          Sets datapipeline tags.
 
 ## example
 dptest.py list-datapipeline-definitions --id <pipeline ids>
+dptest.py set-datapipeline-tags \
+  --id "PIPELINE_ID" \
+  --tagstring '[{"key": "KEY1", "value": "VALUE1"},{"key": "KEY2", "value": "VALUE2"}]'
 
 ### Features
 
@@ -36,6 +40,7 @@ dptest.py list-datapipeline-definitions --id <pipeline ids>
 - list pipeline tags
 - list full pipeline descriptions
 - list full pipeline definitions
+- set pipeline tags
 - create a pipeline (coming soon)
 - delete a pipeline (coming soon)
 - activate a pipeline (coming soon)

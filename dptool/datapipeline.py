@@ -9,7 +9,7 @@ class DataPipelineManager:
 
     def __init__(self, profile, region):
         """Initializes class resource object."""
-        
+
         if not profile:
             profile = 'default'
 
@@ -90,6 +90,20 @@ class DataPipelineManager:
             tags.append(tag)
 
         return tags
+
+    def set_datapipeline_tags(self, id, tagstring):
+        """Sets tags associated with datapipeline 'id' with 'tagdictionary'."""
+
+        import json # is there a better way to convert string to dict?
+
+        tagdictionary = json.loads(tagstring)
+        valid_id_list = []
+        valid_id_list = self.listify_passed_ids(self, id)
+
+        for i in valid_id_list:
+            self.dp_client.add_tags(pipelineId=i, tags=tagdictionary)
+
+        return
 
     def describe_datapipelines(self, id):
         """Gets datapipeline(s) description data."""
